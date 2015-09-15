@@ -1,0 +1,192 @@
+<head>
+<title>S K Communications - Search Customer</title>
+<style>
+#entry {
+    background-color: lightblue;
+    width: 200px;
+    padding: 25px;
+    border: 25px solid navy;
+}
+</style>
+
+<script language="JavaScript" type="text/javascript">
+
+			var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+        	var fso = new ActiveXObject("Scripting.FileSystemObject");	
+        	var FILENAME='C:\\Users\\suazad\\Desktop\\HTMLXML\\datarecord.xml';
+			var foundflag = 0;
+			
+
+	function showData(id)
+	{
+	  window.location.href = "SKCOM-DataEntry.html";
+	}
+
+function searchXML()
+{
+	var noInputFlag = 1;
+	var tagname;
+	if(fso.fileExists(FILENAME))
+    {
+		xmlDoc.load(FILENAME);
+		tel = document.getElementById("teltxt").value;
+		if (tel == null || tel == "")
+		{
+			ac = document.getElementById("acctxt").value;
+			if (ac == null || ac == "")
+			{
+			 dl = document.getElementById("deltxt").value;
+			  if(dl == null || dl == "")
+				{
+				 cnt = document.getElementById("conttxt").value;
+					if(cnt == null || cnt =="")
+					{
+					 noInputFlag = 0;
+					 alert("Enter any Search Criteria!!");
+					 
+					}
+					else {input = cnt;x=xmlDoc.getElementsByTagName("ContNum");tagname="ContNum";}
+				}
+				else{ input = dl;x=xmlDoc.getElementsByTagName("DelNum");tagname="DelNum";}
+			}
+			else{ input = ac;x=xmlDoc.getElementsByTagName("AccNum");tagname="AccNum";}
+		} else{ input = tel;x=xmlDoc.getElementsByTagName("TelNumber");tagname="TelNumber";}
+			
+		  if(noInputFlag == 1)
+			{
+				for (i=0;i<x.length;i++)
+				{
+					startString = xmlDoc.getElementsByTagName(tagname)[i].childNodes[0].nodeValue;
+					if (startString == input)
+					{
+						custname=xmlDoc.getElementsByTagName("CustName")[i].childNodes[0].nodeValue;
+						TelNumber=xmlDoc.getElementsByTagName("TelNumber")[i].childNodes[0].nodeValue;
+						contactnumber=xmlDoc.getElementsByTagName("ContNum")[i].childNodes[0].nodeValue;
+						accountnum=xmlDoc.getElementsByTagName("AccNum")[i].childNodes[0].nodeValue;
+						delnum=xmlDoc.getElementsByTagName("DelNum")[i].childNodes[0].nodeValue;
+						address=xmlDoc.getElementsByTagName("Addr")[i].childNodes[0].nodeValue;
+						exchange=xmlDoc.getElementsByTagName("Exchange")[i].childNodes[0].nodeValue;
+						fieldarea=xmlDoc.getElementsByTagName("Field")[i].childNodes[0].nodeValue;
+						internetport=xmlDoc.getElementsByTagName("InternetPort")[i].childNodes[0].nodeValue;
+						maindp=xmlDoc.getElementsByTagName("MainDP")[i].childNodes[0].nodeValue;
+						subdp=xmlDoc.getElementsByTagName("SubDP")[i].childNodes[0].nodeValue;
+						color=xmlDoc.getElementsByTagName("WColor")[i].childNodes[0].nodeValue;
+						exfield1=xmlDoc.getElementsByTagName("ExtraField1")[i].childNodes[0].nodeValue;
+						exfield2=xmlDoc.getElementsByTagName("ExtraField2")[i].childNodes[0].nodeValue;
+						foundflag = 1;
+						break;
+					}
+					else
+					{
+						foundflag = 0;
+					}
+				}
+				if(foundflag == 0)
+				{
+				 alert ("Customer Record Not Found");
+				}		
+				document.getElementById("name").innerHTML= custname;
+				document.getElementById("phone").innerHTML= TelNumber;
+				document.getElementById("contact").innerHTML= contactnumber;
+				document.getElementById("account").innerHTML= accountnum;
+				document.getElementById("del").innerHTML= delnum;
+				document.getElementById("addr").innerHTML= address;
+				document.getElementById("exch").innerHTML= exchange;
+				document.getElementById("field").innerHTML= fieldarea;
+				
+				document.getElementById("internetport").innerHTML= internetport;
+				document.getElementById("maindp").innerHTML= maindp;
+				document.getElementById("subdp").innerHTML= subdp;
+				document.getElementById("color").innerHTML= color;
+				document.getElementById("exfield1").innerHTML= exfield1;
+				document.getElementById("exfield2").innerHTML= exfield2;
+			}
+		
+	}
+}
+</script>
+</head>
+<body>
+<table>
+<tr>
+<td width="50%">
+<img src="me.gif" alt="Smiley face" /> <input type="button" value="Add a Customer" id="customer" onclick="showData(this.id)"/>
+<br/><br/>
+<div id="entry" class="entry_class">
+TelePhone Number: <input type="text" name="telNum" id="teltxt"> OR
+Account Number: <input type="text" name="accNum" id="acctxt"> OR
+DEL Number: <input type="text" name="delNum" id="deltxt"> OR
+Contact Number: <input type="text" name="contNum" id="conttxt">
+<br/><br/>
+<input type="submit" value="Submit" onClick="searchXML()">
+</div>
+
+<br />
+<br />
+</td>
+<td>
+<div id="results">
+<table border="1" style="width:400px">
+  <th colspan="2">Customer Details</th>
+  <tr>
+    <td>Name</td>
+    <td><label id="name"></label></td> 
+  </tr>
+  <tr>
+    <td>Phone Number</td>
+    <td><label id="phone"></label></td> 
+  </tr>
+  <tr>
+    <td>Contact Number</td>
+    <td><label id="contact"></label></td> 
+  </tr>
+   <tr>
+    <td>Account Number</td>
+    <td><label id="account"></label></td> 
+  </tr>
+   <tr>
+    <td>DEL Number</td>
+    <td><label id="del"></label></td> 
+  </tr>
+   <tr>
+    <td>Address</td>
+    <td><label id="addr"></label></td> 
+  </tr>
+   <tr>
+    <td>Exchange</td>
+    <td><label id="exch"></label></td> 
+  </tr>
+  <tr>
+    <td>Field</td>
+    <td><label id="field"></label></td> 
+  </tr>
+   <tr>
+    <td>Internet Port Number</td>
+    <td><label id="internetport"></label></td> 
+  </tr>
+ <tr>
+    <td>Main DP</td>
+    <td><label id="maindp"></label></td> 
+  </tr>
+   <tr>
+    <td>SUB DP</td>
+    <td><label id="subdp"></label></td> 
+  </tr>
+   <tr>
+    <td>COLOR</td>
+    <td><label id="color"></label></td> 
+  </tr>
+   <tr>
+    <td>Extra Field 1</td>
+    <td><label id="exfield1"></label></td> 
+  </tr>
+   <tr>
+    <td>Extra Field 2</td>
+    <td><label id="exfield2"></label></td> 
+  </tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</body>

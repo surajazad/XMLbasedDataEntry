@@ -1,0 +1,450 @@
+ <!DOCTYPE html>
+    <html>
+    <head>
+
+        <title>S K Communications - Customer Data Program</title>
+
+        <script type="text/javascript" language="javascript">
+
+    	var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+        	var fso = new ActiveXObject("Scripting.FileSystemObject");	
+        	var FILENAME='C:\\Users\\suazad\\Desktop\\HTMLXML\\datarecord.xml';
+			
+	function SaveXMLData()
+    {
+     	validationsNumeric();
+    }
+	
+	function validationsNumeric() 
+    {
+    	
+        var empNumber=document.getElementById("TelNumber");
+    	if(empNumber.value!="")
+    	{
+    		var a = isNaN(empNumber);
+			if(a)
+			{
+			allnumeric();
+			}
+			else
+			{
+			allnumeric();
+			}
+    	}
+    	else
+    	{
+    		alert('Please Enter Telephone Number.');
+    	}
+    }
+	
+	function allnumeric() 
+    {
+    	var numbers=/^\d{10}$/;
+        	var contNumber=document.getElementById("ContNum");
+    	if(contNumber.value!="")
+    	{
+    		if(contNumber.value.length=="10")
+    		{
+        			if(contNumber.value.match(numbers))
+        			{
+           				createfile();
+        			}
+        			else
+    			{
+    	    			alert("Contact number should be numeric");
+        				return(false);
+    			}
+    		}
+    		else
+    		{
+    			alert('Contact Number should be like: 9876543210');
+    		}
+    	}
+    	else
+    	{
+    		alert('Please Enter Contact Number.');
+    	}
+    }
+	function showData(id)
+	{
+	  window.location.href = "searchxml.html";
+	}
+	
+	 function createfile()
+    {
+
+    	var file;
+
+        	var custName=document.getElementById('CustName').value!="" ? document.getElementById('CustName').value : 0;
+        	var telNum=document.getElementById('TelNumber').value!=""?document.getElementById('TelNumber').value : 0;
+        	var contNum=document.getElementById('ContNum').value!=""?document.getElementById('ContNum').value : 0;
+			var accNum=document.getElementById('AccNum').value!=""?document.getElementById('AccNum').value : 0;
+        	var delNum=document.getElementById('DelNum').value!=""?document.getElementById('DelNum').value : 0;
+        	var addr=document.getElementById('Addr').value!=""?document.getElementById('Addr').value : 0;
+        	var exchange = document.getElementById("Exchange").value!=""?document.getElementById("Exchange").value : 0;
+			var field=document.getElementById('Field').value!="" ? document.getElementById('Field').value : 0;
+        	var internetPort=document.getElementById('InternetPort').value!=""? document.getElementById('InternetPort').value : 0;
+			var mainDP=document.getElementById('MainDP').value!="" ? document.getElementById('MainDP').value : 0;
+			var subDP=document.getElementById('SubDP').value!="" ? document.getElementById('SubDP').value : 0;
+			var wColor=document.getElementById('WColor').value ? document.getElementById('WColor').value : 0;
+			var extraField1=document.getElementById('ExtraField1').value!="" ? document.getElementById('ExtraField1').value : 0;
+			var extraField2=document.getElementById('ExtraField2').value!="" ? document.getElementById('ExtraField2').value : 0;
+			
+			
+			
+			
+   	
+        	var tablemain = document.getElementById('tblmain');
+
+    	if(fso.fileExists(FILENAME))
+        	{
+    		xmlDoc.load(FILENAME);
+        		var lng;
+        		lng=xmlDoc.getElementsByTagName("Details");
+
+        		var xmlread= fso.OpenTextFile(FILENAME,1,true,0);
+
+        		var x=xmlread.readAll();
+        		var replace=x.replace('</Customer>','');
+        		var sno=lng.length + 1;
+        		file=fso.OpenTextFile(FILENAME,2,true);
+
+        		file.writeLine(replace);
+
+        		file.WriteLine('<Details category="'+sno+'">');
+        		file.WriteLine('<SNo>'+sno+'</SNo>');
+        		file.WriteLine('<CustName>'+custName+'</CustName>');
+        		file.WriteLine('<TelNumber>'+telNum+'</TelNumber>');
+        		file.WriteLine('<ContNum>'+contNum+'</ContNum>');
+				file.WriteLine('<AccNum>'+accNum+'</AccNum>');
+				file.WriteLine('<DelNum>'+delNum+'</DelNum>');
+				file.WriteLine('<Addr>'+addr+'</Addr>');
+				file.WriteLine('<Exchange>'+exchange+'</Exchange>');
+				file.WriteLine('<Field>'+field+'</Field>');
+				file.WriteLine('<InternetPort>'+internetPort+'</InternetPort>');
+				file.WriteLine('<MainDP>'+mainDP+'</MainDP>');
+				file.WriteLine('<SubDP>'+subDP+'</SubDP>');
+				file.WriteLine('<WColor>'+wColor+'</WColor>');
+				file.WriteLine('<ExtraField1>'+extraField1+'</ExtraField1>');
+				file.WriteLine('<ExtraField2>'+extraField2+'</ExtraField2>');
+        		file.WriteLine('</Details>');
+        		file.WriteLine('</Customer>');
+        		
+    		alert('Customer Record Created');
+        	}
+        	else
+        	{
+
+        		file= fso.CreateTextFile(FILENAME, true);
+        		file.WriteLine('<?xml version="1.0" encoding="utf-8" ?>');
+				file.WriteLine('<?xml-stylesheet type="text/xsl" href="cdcatalog.xsl"?>');
+        		file.WriteLine('<Customer>');
+        		file.WriteLine('<Details category="1">');
+        		file.WriteLine('<SNo>'+1+'</SNo>');
+				file.WriteLine('<CustName>'+custName+'</CustName>');
+        		file.WriteLine('<TelNumber>'+telNum+'</TelNumber>');
+        		file.WriteLine('<ContNum>'+contNum+'</ContNum>');
+				file.WriteLine('<AccNum>'+accNum+'</AccNum>');
+				file.WriteLine('<DelNum>'+delNum+'</DelNum>');
+				file.WriteLine('<Addr>'+addr+'</Addr>');
+				file.WriteLine('<Exchange>'+exchange+'</Exchange>');
+				file.WriteLine('<Field>'+field+'</Field>');
+				file.WriteLine('<InternetPort>'+internetPort+'</InternetPort>');
+				file.WriteLine('<MainDP>'+mainDP+'</MainDP>');
+				file.WriteLine('<SubDP>'+subDP+'</SubDP>');
+				file.WriteLine('<WColor>'+wColor+'</WColor>');
+				file.WriteLine('<ExtraField1>'+extraField1+'</ExtraField1>');
+				file.WriteLine('<ExtraField2>'+extraField2+'</ExtraField2>');
+        		file.WriteLine('</Details>');
+        		file.WriteLine('</Customer>');     
+
+    		alert('Customer Record updated');
+        	}
+
+    	<!-- displayData();-->
+
+    	document.getElementById('CustName').value='';
+    	document.getElementById('TelNumber').value='';
+    	document.getElementById('ContNum').value='';
+		document.getElementById('AccNum').value='';
+    	document.getElementById('DelNum').value='';
+    	document.getElementById('Addr').value='';
+		document.getElementById('Exchange').value='';
+		document.getElementById('Field').value='';
+    	document.getElementById('InternetPort').value='';
+    	document.getElementById('MainDP').value='';
+		document.getElementById('SubDP').value='';
+    	document.getElementById('WColor').value='';
+    	document.getElementById('ExtraField1').value='0';
+		document.getElementById('ExtraField2').value='0';
+    	
+		addRow('tablemain');
+    	file.close();
+    }
+	
+ function addRow(id) 
+    {
+
+        if(fso.fileExists(FILENAME))
+        {
+
+			xmlDoc.load(FILENAME);
+        	var x;
+        	x=xmlDoc.getElementsByTagName("Details");
+            var table = document.getElementById('tbl');        
+
+			var nxtbtn= document.getElementById("btnnext");
+			var prvbtn=document.getElementById("btnprev");
+			nxtbtn.disabled=true;
+			prvbtn.disabled=true;
+			if(x.length >5)
+			{
+				nxtbtn.disabled=false;
+			}
+			var j=0;k=5;
+			if(k>x.length)
+			{k=x.length;}
+
+			var store=document.getElementById("txtstore");
+			var maxval=document.getElementById("txtmax");
+
+			if(id=="btnprev")
+			{        
+				if((store.value % k)==0)
+				{
+					store.value = store.value - k ;
+					if(store.value>0)
+					{
+						j = parseInt(store.value);
+						k += parseInt(store.value);
+					}
+				}
+				else
+				{
+					store.value =store.value - (store.value % k) ;
+
+					if(store.value >0)
+					{
+						j = store.value - k;
+						k = store.value;
+					}
+			
+				}
+			
+				if(j > 0)
+				{
+					prvbtn.disabled=false;
+				}
+
+			}
+			if(id=="btnnext")
+			{
+				if(store.value==0)
+				{
+					store.value=table.rows.length;
+				}
+				else if(store.value <0)
+				{
+					store.value=maxval.value;
+				}
+				prvbtn.disabled=false;
+					if(store.value >=k)
+				{
+					j +=parseInt(store.value);
+					k +=parseInt(store.value);
+					if(k >= x.length)
+					{
+						k=x.length;
+						nxtbtn.disabled = true;
+						prvbtn.disabled = false;
+					}
+				}
+			}
+
+			table.innerHTML = "";
+			var rowCount = 0;
+
+         	for (i=j;i<k;i++)
+			{
+         
+            	var row = table.insertRow(rowCount);
+
+    	        var cell1 = row.insertCell(0);
+            	var element1 = document.createElement("input");
+    	        element1.type = "checkbox";
+    	        element1.id =  "id2" ;
+            	cell1.appendChild(element1);
+
+    	        // Create label
+            	var label = document.createElement("label");
+    	        label.htmlFor =  "id2" ;
+            	cell1.appendChild(label);
+
+    	        var cell2 = row.insertCell(1);
+            	cell2.innerHTML = x[i].getElementsByTagName("SNo")[0].childNodes[0].nodeValue;
+
+    	        var name = row.insertCell(2);
+            	var elname =document.createElement("input");
+    	        elname.type = "text";
+				elname.readOnly=true;
+				elname.value=x[i].getElementsByTagName("CustName")[0].childNodes[0].nodeValue;
+    	        name.appendChild(elname);
+
+    	        var phnno = row.insertCell(3);
+            	var elphn =document.createElement("input");
+    	        elphn.type = "text";
+				elphn.readOnly=true;
+				elphn.value=x[i].getElementsByTagName("TelNumber")[0].childNodes[0].nodeValue;
+            	phnno.appendChild(elphn);
+
+    	        var email = row.insertCell(4);
+            	var elemail =document.createElement("input");
+    	        elemail.type = "text";
+				elemail.readOnly=true;
+				elemail.value=x[i].getElementsByTagName("ContNum")[0].childNodes[0].nodeValue;
+            	email.appendChild(elemail);
+				
+
+    	        var date = row.insertCell(5);
+            	var eldate =document.createElement("input");
+    	        eldate.type = "text";
+				eldate.readOnly=true;
+				eldate.value=x[i].getElementsByTagName("AccNum")[0].childNodes[0].nodeValue;
+            	date.appendChild(eldate);
+				
+				var color = row.insertCell(6);
+            	var elcolor =document.createElement("input");
+    	        elcolor.type = "text";
+				elcolor.readOnly=true;
+				elcolor.value=x[i].getElementsByTagName("DelNum")[0].childNodes[0].nodeValue;
+            	color.appendChild(elcolor);
+				
+				var expnum = row.insertCell(7);
+            	var elcolor1 =document.createElement("input");
+    	        elcolor1.type = "text";
+				elcolor1.readOnly=true;
+				elcolor1.value=x[i].getElementsByTagName("Exchange")[0].childNodes[0].nodeValue;
+            	expnum.appendChild(elcolor1);
+		
+    	
+    		rowCount +=1;
+         	}
+    	maxval.value=x[table.rows.length - 1].getElementsByTagName("SNo")[0].childNodes[0].nodeValue;
+
+    	if(id=="btnprev")
+    	{
+    	 store.value =store.value - 5;
+    	}
+    	 else
+    	{
+        	 store.value =parseInt(k);
+    	}
+       }
+    }
+
+        </script>
+    </head>
+    <body onload="addRow('tbl')">
+		<div style="text-align: left; display: inline-block;">
+    	<form id="empForm" action="" method="get">
+
+        	<p><b>Customer Registration Form</b></p>
+
+        	<table>
+        		<tr>
+        			<td>Name:</td>
+        			<td><input type="text" id="CustName" maxlength="25"/></td>
+        		</tr>
+				<tr>
+        			<td>Phone Number:</td>
+        			<td><input type="text" id="TelNumber" maxlength="10"/></td>
+        		</tr>
+        		<tr>
+        			<td>Contact Number:</td>
+        			<td><input type="text" id="ContNum" maxlength="10"/></td>
+        		</tr>
+    	    	<tr>
+        			<td>Account Number:</td>
+        			<td><input type="text" id="AccNum"/></td>
+        		</tr>
+				<tr>
+        			<td>DEL Number:</td>
+        			<td><input type="text" id="DelNum" maxlength="10"/></td>
+        		</tr>
+				<tr>
+        			<td>Address :</td>
+        			<td><input type="text" id="Addr" maxlength="150"/></td>
+        		</tr>
+				<tr>
+        			<td>Exchange :</td>
+        			<td>
+					<select id="Exchange">
+					  <option value="selectone">Select</option>
+					  <option value="khetan-Market">Khetan Market</option>
+					  <option value="Bakerganj">Bakerganj</option>
+					  <option value="Gola-Road">Gola Road</option>
+					  <option value="Exhibition-Road">Exhibition Road</option>
+					</select>
+					</td>
+        		</tr>
+				<tr>
+        			<td>Field :</td>
+        			<td><input type="text" id="Field" maxlength="25"/></td>
+        		</tr>
+				<tr>
+        			<td>Internet Port Number:</td>
+        			<td><input type="text" id="InternetPort" maxlength="10"/></td>
+        		</tr>
+				<tr>
+        			<td>Main DP Number:</td>
+        			<td><input type="text" id="MainDP" maxlength="10"/></td>
+        		</tr>
+				<tr>
+        			<td>SUB DP Number:</td>
+        			<td><input type="text" id="SubDP" maxlength="10"/></td>
+        		</tr>
+				<tr>
+        			<td>Color:</td>
+        			<td><input type="text" id="WColor" maxlength="20"/></td>
+        		</tr>
+				<tr>
+        			<td>Extra Field1:</td>
+        			<td><input type="text" id="ExtraField1" maxlength="15" value="0"/></td>
+        		</tr>
+				<tr>
+        			<td>Extra Field2:</td>
+        			<td><input type="text" id="ExtraField2" maxlength="15" value="0"/></td>
+        		</tr>
+        	 		<tr>
+        			<td align="center">
+    			<input type="button" value="Submit" onclick="SaveXMLData()"/></td>
+        			<td>
+    			<input type="button" value="Show Data" id="show" onclick="displayData(this.id)" style="display:none;"/></td>
+        		</tr>
+        	</table>
+			</div>
+			<br/><br/><br/>
+    	<!-- <table><tr><td><input type="button" onclick="displayData(this.id)" value="Prev" id="prev" disabled="disabled"></td>
+    	   <td><input type="button" onclick="displayData(this.id)" value="Next" id="next" disabled="disabled"></td></tr></table> -->
+				<div id='displaydatadiv'>	
+        	</div>
+    	<!-- <INPUT type="button" value="Add Row" onclick="addRow('tbl')" /> -->
+    	
+    	<div style="height: 165px; width:1250px; background-color: Lavender;" >
+			<TABLE id="tbl" width="350px"> 
+			
+      		</TABLE>
+    	</div>
+    	<table id="tblmain" border="1" style="display:true" >
+
+		</table>
+    		<input type="button" id="btnprev" value="Prev" onclick="addRow(this.id)" disabled="disabled">
+    		<input type="button" id="btnnext" value="Next" onclick="addRow(this.id)" disabled="disabled">
+
+    		<input type="hidden" id="txtstore" style="display:none;">
+    		<input type="hidden" id="txtmax" style="display:none;">
+	
+		<input type="button" value="Search a Customer" id="customer" onclick="showData(this.id)"/>
+			
+    </body>
+    </html>
